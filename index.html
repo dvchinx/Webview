@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📖 Diario Mood - Tu espacio personal</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#6366f1">
+    <!-- Chart.js for mood tracking -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="screen active">
+        <div class="login-container">
+            <div class="logo">
+                <i class="fas fa-book-heart"></i>
+                <h1>Diario Mood</h1>
+                <p>Tu espacio personal</p>
+            </div>
+            <div class="login-form">
+                <input type="password" id="passwordInput" placeholder="Ingresa tu PIN o contraseña" maxlength="6">
+                <button id="loginBtn" class="btn primary">
+                    <i class="fas fa-unlock"></i> Entrar
+                </button>
+                <div class="numeric-keypad">
+                    <div class="keypad-row">
+                        <button class="keypad-btn" data-number="1">1</button>
+                        <button class="keypad-btn" data-number="2">2</button>
+                        <button class="keypad-btn" data-number="3">3</button>
+                    </div>
+                    <div class="keypad-row">
+                        <button class="keypad-btn" data-number="4">4</button>
+                        <button class="keypad-btn" data-number="5">5</button>
+                        <button class="keypad-btn" data-number="6">6</button>
+                    </div>
+                    <div class="keypad-row">
+                        <button class="keypad-btn" data-number="7">7</button>
+                        <button class="keypad-btn" data-number="8">8</button>
+                        <button class="keypad-btn" data-number="9">9</button>
+                    </div>
+                    <div class="keypad-row">
+                        <button class="keypad-btn clear" data-action="clear">
+                            <i class="fas fa-backspace"></i>
+                        </button>
+                        <button class="keypad-btn" data-number="0">0</button>
+                        <button class="keypad-btn" data-action="delete">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="setup-password" id="setupPassword">
+                    <p>¿Primera vez? Configura tu PIN de 4-6 dígitos</p>
+                    <button id="setupBtn" class="btn secondary">Configurar PIN</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Screen -->
+    <div id="mainScreen" class="screen">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="date-display">
+                    <span id="currentDate"></span>
+                </div>
+                <div class="header-actions">
+                    <button id="themeToggle" class="icon-btn">
+                        <i class="fas fa-palette"></i>
+                    </button>
+                    <button id="settingsBtn" class="icon-btn">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-btn active" data-tab="diary">
+                <i class="fas fa-pen"></i>
+                <span>Diario</span>
+            </button>
+            <button class="nav-btn" data-tab="mood">
+                <i class="fas fa-chart-line"></i>
+                <span>Ánimo</span>
+            </button>
+            <button class="nav-btn" data-tab="memories">
+                <i class="fas fa-map-marked-alt"></i>
+                <span>Recuerdos</span>
+            </button>
+            <button class="nav-btn" data-tab="minimal">
+                <i class="fas fa-feather"></i>
+                <span>Rápido</span>
+            </button>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Diary Tab -->
+            <div id="diaryTab" class="tab-content active">
+                <!-- Daily Question -->
+                <div class="daily-question">
+                    <h3 id="dailyQuestionText">¿Qué agradeces hoy?</h3>
+                </div>
+
+                <!-- Mood Selector -->
+                <div class="mood-selector">
+                    <h4>¿Cómo te sientes hoy?</h4>
+                    <div class="mood-options">
+                        <button class="mood-btn" data-mood="very-sad" data-value="1">😢</button>
+                        <button class="mood-btn" data-mood="sad" data-value="2">😞</button>
+                        <button class="mood-btn" data-mood="neutral" data-value="3">😐</button>
+                        <button class="mood-btn" data-mood="happy" data-value="4">😊</button>
+                        <button class="mood-btn" data-mood="very-happy" data-value="5">😄</button>
+                    </div>
+                </div>
+
+                <!-- Media Options -->
+                <div class="media-options">
+                    <button class="media-btn" id="audioBtn">
+                        <i class="fas fa-microphone"></i>
+                        <span>Nota de voz</span>
+                    </button>
+                    <button class="media-btn" id="photoBtn">
+                        <i class="fas fa-camera"></i>
+                        <span>Foto del día</span>
+                    </button>
+                </div>
+
+                <!-- Text Entry -->
+                <div class="text-entry">
+                    <textarea id="diaryText" placeholder="Escribe aquí lo que quieras... tus pensamientos, experiencias, sueños..."></textarea>
+                </div>
+
+                <!-- Save Button -->
+                <button id="saveEntry" class="btn primary save-btn">
+                    <i class="fas fa-save"></i>
+                    Guardar entrada
+                </button>
+
+                <!-- Previous Entries -->
+                <div class="previous-entries">
+                    <h4>Entradas anteriores</h4>
+                    <div id="entriesList"></div>
+                </div>
+            </div>
+
+            <!-- Mood Tracking Tab -->
+            <div id="moodTab" class="tab-content">
+                <div class="mood-stats">
+                    <h3>Seguimiento de emociones</h3>
+                    <div class="stats-summary">
+                        <div class="stat-item">
+                            <span class="stat-label">Esta semana</span>
+                            <span class="stat-value" id="weeklyAverage">😊</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Mejor día</span>
+                            <span class="stat-value" id="bestDay">Lunes</span>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="moodChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Memories Tab -->
+            <div id="memoriesTab" class="tab-content">
+                <div class="memories-content">
+                    <h3>Mapa de recuerdos</h3>
+                    <div class="map-placeholder">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <p>Función disponible próximamente</p>
+                        <p>Aquí verás un mapa con todas las ubicaciones donde has escrito en tu diario</p>
+                    </div>
+                    <div class="location-toggle">
+                        <label class="switch">
+                            <input type="checkbox" id="locationEnabled">
+                            <span class="slider"></span>
+                        </label>
+                        <span>Guardar ubicación con entradas</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Minimal Mode Tab -->
+            <div id="minimalTab" class="tab-content">
+                <div class="minimal-entry">
+                    <h3>Modo minimalista</h3>
+                    <p>Entrada rápida para cuando tienes poco tiempo</p>
+                    
+                    <div class="minimal-mood">
+                        <h4>Tu emoji del día</h4>
+                        <div class="mood-options">
+                            <button class="mood-btn" data-mood="very-sad" data-value="1">😢</button>
+                            <button class="mood-btn" data-mood="sad" data-value="2">😞</button>
+                            <button class="mood-btn" data-mood="neutral" data-value="3">😐</button>
+                            <button class="mood-btn" data-mood="happy" data-value="4">😊</button>
+                            <button class="mood-btn" data-mood="very-happy" data-value="5">😄</button>
+                        </div>
+                    </div>
+
+                    <div class="minimal-text">
+                        <textarea id="minimalText" placeholder="Una frase corta sobre tu día..." maxlength="100"></textarea>
+                        <span class="char-counter">0/100</span>
+                    </div>
+
+                    <button id="saveMinimal" class="btn primary">
+                        <i class="fas fa-bolt"></i>
+                        Guardar rápido
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Configuración</h3>
+                <button class="close-btn" id="closeSettings">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Theme Selection -->
+                <div class="setting-group">
+                    <h4>Tema</h4>
+                    <div class="theme-options">
+                        <button class="theme-btn active" data-theme="default">
+                            <div class="theme-preview default"></div>
+                            <span>Predeterminado</span>
+                        </button>
+                        <button class="theme-btn" data-theme="dark">
+                            <div class="theme-preview dark"></div>
+                            <span>Oscuro</span>
+                        </button>
+                        <button class="theme-btn" data-theme="pastel">
+                            <div class="theme-preview pastel"></div>
+                            <span>Pastel</span>
+                        </button>
+                        <button class="theme-btn" data-theme="minimal">
+                            <div class="theme-preview minimal"></div>
+                            <span>Minimalista</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notifications -->
+                <div class="setting-group">
+                    <h4>Recordatorios</h4>
+                    <div class="setting-item">
+                        <label class="switch">
+                            <input type="checkbox" id="notificationsEnabled">
+                            <span class="slider"></span>
+                        </label>
+                        <span>Recordatorio diario</span>
+                    </div>
+                    <div class="setting-item">
+                        <label for="notificationTime">Hora del recordatorio:</label>
+                        <input type="time" id="notificationTime" value="20:00">
+                    </div>
+                </div>
+
+                <!-- Security -->
+                <div class="setting-group">
+                    <h4>Seguridad</h4>
+                    <button id="changePin" class="btn secondary">
+                        <i class="fas fa-key"></i>
+                        Cambiar PIN
+                    </button>
+                    <button id="exportData" class="btn secondary">
+                        <i class="fas fa-download"></i>
+                        Exportar datos
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
