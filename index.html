@@ -2,7 +2,9 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>📖 Diario Mood - Tu espacio personal</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
@@ -22,7 +24,7 @@
                 <p>Tu espacio personal</p>
             </div>
             <div class="login-form">
-                <input type="password" id="passwordInput" placeholder="Ingresa tu PIN o contraseña" maxlength="6">
+                <input type="tel" id="passwordInput" placeholder="Ingresa tu PIN" pattern="[0-9]*" inputmode="numeric" maxlength="6" autocomplete="off">
                 <button id="loginBtn" class="btn primary">
                     <i class="fas fa-unlock"></i> Entrar
                 </button>
@@ -69,35 +71,15 @@
                     <span id="currentDate"></span>
                 </div>
                 <div class="header-actions">
-                    <button id="themeToggle" class="icon-btn">
+                    <button id="themeToggle" class="icon-btn" aria-label="Cambiar tema">
                         <i class="fas fa-palette"></i>
                     </button>
-                    <button id="settingsBtn" class="icon-btn">
+                    <button id="settingsBtn" class="icon-btn" aria-label="Configuración">
                         <i class="fas fa-cog"></i>
                     </button>
                 </div>
             </div>
         </header>
-
-        <!-- Navigation -->
-        <nav class="bottom-nav">
-            <button class="nav-btn active" data-tab="diary">
-                <i class="fas fa-pen"></i>
-                <span>Diario</span>
-            </button>
-            <button class="nav-btn" data-tab="mood">
-                <i class="fas fa-chart-line"></i>
-                <span>Ánimo</span>
-            </button>
-            <button class="nav-btn" data-tab="memories">
-                <i class="fas fa-map-marked-alt"></i>
-                <span>Recuerdos</span>
-            </button>
-            <button class="nav-btn" data-tab="minimal">
-                <i class="fas fa-feather"></i>
-                <span>Rápido</span>
-            </button>
-        </nav>
 
         <!-- Main Content Area -->
         <main class="main-content">
@@ -112,11 +94,11 @@
                 <div class="mood-selector">
                     <h4>¿Cómo te sientes hoy?</h4>
                     <div class="mood-options">
-                        <button class="mood-btn" data-mood="very-sad" data-value="1">😢</button>
-                        <button class="mood-btn" data-mood="sad" data-value="2">😞</button>
-                        <button class="mood-btn" data-mood="neutral" data-value="3">😐</button>
-                        <button class="mood-btn" data-mood="happy" data-value="4">😊</button>
-                        <button class="mood-btn" data-mood="very-happy" data-value="5">😄</button>
+                        <button class="mood-btn" data-mood="very-sad" data-value="1" aria-label="Muy triste">😢</button>
+                        <button class="mood-btn" data-mood="sad" data-value="2" aria-label="Triste">😞</button>
+                        <button class="mood-btn" data-mood="neutral" data-value="3" aria-label="Neutral">😐</button>
+                        <button class="mood-btn" data-mood="happy" data-value="4" aria-label="Feliz">😊</button>
+                        <button class="mood-btn" data-mood="very-happy" data-value="5" aria-label="Muy feliz">😄</button>
                     </div>
                 </div>
 
@@ -134,7 +116,7 @@
 
                 <!-- Text Entry -->
                 <div class="text-entry">
-                    <textarea id="diaryText" placeholder="Escribe aquí lo que quieras... tus pensamientos, experiencias, sueños..."></textarea>
+                    <textarea id="diaryText" placeholder="Escribe aquí lo que quieras... tus pensamientos, experiencias, sueños..." autocomplete="off" autocorrect="off"></textarea>
                 </div>
 
                 <!-- Save Button -->
@@ -198,16 +180,16 @@
                     <div class="minimal-mood">
                         <h4>Tu emoji del día</h4>
                         <div class="mood-options">
-                            <button class="mood-btn" data-mood="very-sad" data-value="1">😢</button>
-                            <button class="mood-btn" data-mood="sad" data-value="2">😞</button>
-                            <button class="mood-btn" data-mood="neutral" data-value="3">😐</button>
-                            <button class="mood-btn" data-mood="happy" data-value="4">😊</button>
-                            <button class="mood-btn" data-mood="very-happy" data-value="5">😄</button>
+                            <button class="mood-btn" data-mood="very-sad" data-value="1" aria-label="Muy triste">😢</button>
+                            <button class="mood-btn" data-mood="sad" data-value="2" aria-label="Triste">😞</button>
+                            <button class="mood-btn" data-mood="neutral" data-value="3" aria-label="Neutral">😐</button>
+                            <button class="mood-btn" data-mood="happy" data-value="4" aria-label="Feliz">😊</button>
+                            <button class="mood-btn" data-mood="very-happy" data-value="5" aria-label="Muy feliz">😄</button>
                         </div>
                     </div>
 
                     <div class="minimal-text">
-                        <textarea id="minimalText" placeholder="Una frase corta sobre tu día..." maxlength="100"></textarea>
+                        <textarea id="minimalText" placeholder="Una frase corta sobre tu día..." maxlength="100" autocomplete="off" autocorrect="off"></textarea>
                         <span class="char-counter">0/100</span>
                     </div>
 
@@ -218,6 +200,26 @@
                 </div>
             </div>
         </main>
+
+        <!-- Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-btn active" data-tab="diary" aria-label="Diario">
+                <i class="fas fa-pen"></i>
+                <span>Diario</span>
+            </button>
+            <button class="nav-btn" data-tab="mood" aria-label="Estado de ánimo">
+                <i class="fas fa-chart-line"></i>
+                <span>Ánimo</span>
+            </button>
+            <button class="nav-btn" data-tab="memories" aria-label="Recuerdos">
+                <i class="fas fa-map-marked-alt"></i>
+                <span>Recuerdos</span>
+            </button>
+            <button class="nav-btn" data-tab="minimal" aria-label="Modo rápido">
+                <i class="fas fa-feather"></i>
+                <span>Rápido</span>
+            </button>
+        </nav>
     </div>
 
     <!-- Settings Modal -->
@@ -225,7 +227,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Configuración</h3>
-                <button class="close-btn" id="closeSettings">
+                <button class="close-btn" id="closeSettings" aria-label="Cerrar">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
