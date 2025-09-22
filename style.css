@@ -86,6 +86,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
 }
 
 body {
@@ -93,10 +100,10 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
-    overflow-x: hidden;
-    transition: background-color 0.3s ease, color 0.3s ease;
     -webkit-text-size-adjust: 100%;
-    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Screen Management */
@@ -162,7 +169,7 @@ body {
 #passwordInput {
     width: 100%;
     padding: var(--spacing-lg);
-    font-size: var(--font-size-lg);
+    font-size: 16px; /* Previene zoom en iOS */
     border: 2px solid var(--border-color);
     border-radius: var(--radius-lg);
     background-color: var(--surface-color);
@@ -181,10 +188,10 @@ body {
 
 /* Numeric Keypad */
 .numeric-keypad {
-    margin: var(--spacing-xl) 0;
-    max-width: 300px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: var(--spacing-lg) auto;
+    max-width: 280px;
+    width: 100%;
+    padding: 0 var(--spacing-sm);
 }
 
 .keypad-row {
@@ -195,8 +202,8 @@ body {
 
 .keypad-btn {
     flex: 1;
-    padding: var(--spacing-lg);
-    font-size: var(--font-size-xl);
+    padding: var(--spacing-md);
+    font-size: var(--font-size-lg);
     font-weight: 600;
     border: none;
     border-radius: var(--radius-md);
@@ -205,7 +212,7 @@ body {
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 2px 4px var(--shadow-color);
-    min-height: 60px;
+    min-height: 50px;
 }
 
 .keypad-btn:hover {
@@ -298,7 +305,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 800px;
+    max-width: 100%;
     margin: 0 auto;
 }
 
@@ -336,11 +343,13 @@ body {
 .main-content {
     flex: 1;
     overflow-y: auto;
-    padding: var(--spacing-lg);
-    padding-bottom: 100px; /* Space for bottom nav */
-    max-width: 800px;
+    overflow-x: hidden;
+    padding: var(--spacing-md);
+    padding-bottom: 80px;
+    max-width: 100%;
     margin: 0 auto;
     width: 100%;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* Tab Content */
@@ -393,24 +402,27 @@ body {
 
 .mood-options {
     display: flex;
-    justify-content: space-between;
-    gap: var(--spacing-sm);
+    justify-content: space-around;
+    gap: 0.25rem;
+    padding: 0 var(--spacing-xs);
 }
 
 .mood-btn {
-    flex: 1;
+    flex: 0 1 auto;
+    width: calc(20% - 0.25rem);
+    max-width: 70px;
     aspect-ratio: 1;
     border: none;
     border-radius: var(--radius-lg);
     background-color: var(--background-color);
-    font-size: 2rem;
+    font-size: 1.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
     border: 2px solid transparent;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 60px;
+    min-height: 50px;
 }
 
 .mood-btn:hover {
@@ -444,7 +456,7 @@ body {
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-sm);
-    min-height: 80px;
+    min-height: 70px;
 }
 
 .media-btn:hover {
@@ -464,13 +476,13 @@ body {
 
 #diaryText, #minimalText {
     width: 100%;
-    min-height: 200px;
+    min-height: 150px;
     padding: var(--spacing-lg);
     border: 2px solid var(--border-color);
     border-radius: var(--radius-lg);
     background-color: var(--surface-color);
     color: var(--text-color);
-    font-size: var(--font-size-base);
+    font-size: 16px; /* Previene zoom en iOS */
     font-family: var(--font-family);
     line-height: 1.6;
     resize: vertical;
@@ -478,7 +490,7 @@ body {
 }
 
 #minimalText {
-    min-height: 120px;
+    min-height: 100px;
 }
 
 #diaryText:focus, #minimalText:focus {
@@ -588,7 +600,7 @@ body {
 
 .chart-container {
     position: relative;
-    height: 300px;
+    height: 250px;
     margin-top: var(--spacing-lg);
 }
 
@@ -672,7 +684,8 @@ body {
     background-color: var(--surface-color);
     border-top: 1px solid var(--border-color);
     display: flex;
-    padding: var(--spacing-sm) 0;
+    padding-top: var(--spacing-sm);
+    padding-bottom: env(safe-area-inset-bottom, 0);
     box-shadow: 0 -2px 8px var(--shadow-color);
     z-index: 100;
 }
@@ -689,7 +702,7 @@ body {
     align-items: center;
     gap: var(--spacing-xs);
     transition: all 0.3s ease;
-    min-height: 60px;
+    min-height: 55px;
 }
 
 .nav-btn.active {
@@ -784,7 +797,7 @@ input:checked + .slider:before {
     border-radius: var(--radius-lg);
     width: 100%;
     max-width: 500px;
-    max-height: 90vh;
+    max-height: 85vh;
     overflow-y: auto;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     transform: scale(0.9);
@@ -862,6 +875,7 @@ input:checked + .slider:before {
     border-radius: var(--radius-sm);
     background-color: var(--surface-color);
     color: var(--text-color);
+    font-size: 16px;
 }
 
 /* Theme Options */
@@ -943,36 +957,157 @@ input:checked + .slider:before {
     transform: translateX(-50%) translateY(-10px);
 }
 
-/* Responsive Design */
-@media (max-width: 480px) {
-    .main-content {
-        padding: var(--spacing-md);
+/* Media Queries - Tablets */
+@media (max-width: 768px) {
+    :root {
+        --font-size-base: 0.9375rem;
+        --font-size-lg: 1rem;
+        --font-size-xl: 1.125rem;
     }
     
-    .mood-options {
-        gap: var(--spacing-xs);
+    .app-header {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    .daily-question {
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .daily-question h3 {
+        font-size: var(--font-size-lg);
+    }
+}
+
+/* Media Queries - Mobile */
+@media (max-width: 480px) {
+    .main-content {
+        padding: var(--spacing-sm);
+        padding-bottom: 75px;
+    }
+    
+    .mood-selector {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .mood-selector h4 {
+        font-size: var(--font-size-base);
+        margin-bottom: var(--spacing-md);
     }
     
     .mood-btn {
-        font-size: 1.5rem;
-        min-height: 50px;
+        font-size: 1.25rem;
+        min-height: 45px;
+        width: calc(20% - 0.2rem);
     }
     
     .media-options {
         flex-direction: column;
+        gap: var(--spacing-sm);
     }
     
-    .stats-summary {
-        grid-template-columns: 1fr;
+    .media-btn {
+        min-height: 60px;
+        padding: var(--spacing-md);
+    }
+    
+    #diaryText, #minimalText {
+        padding: var(--spacing-md);
+        min-height: 120px;
+    }
+    
+    #minimalText {
+        min-height: 80px;
+    }
+    
+    .entry-item {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .nav-btn {
+        min-height: 50px;
+        padding: var(--spacing-xs);
+    }
+    
+    .nav-btn i {
+        font-size: 1rem;
+    }
+    
+    .nav-btn span {
+        font-size: 0.625rem;
+    }
+    
+    .modal {
+        padding: var(--spacing-sm);
+    }
+    
+    .modal-content {
+        margin: var(--spacing-sm);
     }
     
     .theme-options {
         grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
     }
     
     .keypad-btn {
-        min-height: 50px;
-        font-size: var(--font-size-lg);
+        min-height: 45px;
+        font-size: 1rem;
+        padding: var(--spacing-sm);
+    }
+    
+    .stats-summary {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .chart-container {
+        height: 200px;
+    }
+}
+
+/* Extra Small Devices */
+@media (max-width: 360px) {
+    .mood-btn {
+        font-size: 1rem;
+        min-height: 40px;
+    }
+    
+    .keypad-btn {
+        min-height: 40px;
+        font-size: 0.875rem;
+    }
+    
+    .nav-btn {
+        min-height: 45px;
+    }
+    
+    .nav-btn span {
+        font-size: 0.5rem;
+    }
+}
+
+/* iPhone Safe Areas */
+@supports (padding: env(safe-area-inset-bottom)) {
+    .bottom-nav {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    .main-content {
+        padding-bottom: calc(80px + env(safe-area-inset-bottom));
+    }
+}
+
+/* Prevent iOS Input Zoom */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    input[type="text"],
+    input[type="tel"],
+    input[type="password"],
+    input[type="time"],
+    textarea {
+        font-size: 16px !important;
     }
 }
 
@@ -1009,7 +1144,7 @@ input:checked + .slider:before {
     }
 }
 
-/* Focus Styles for Keyboard Navigation */
+/* Focus Styles */
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible {
@@ -1017,7 +1152,7 @@ textarea:focus-visible {
     outline-offset: 2px;
 }
 
-/* High Contrast Mode Support */
+/* High Contrast Mode */
 @media (prefers-contrast: high) {
     :root {
         --border-color: #000000;
